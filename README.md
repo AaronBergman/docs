@@ -1,16 +1,8 @@
-# Mintlify Starter Kit
+# Neuronpedia Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+This repository contains the documentation for [Neuronpedia](https://neuronpedia.org), an open platform for mechanistic interpretability research.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
-
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
-
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+**Status:** Currently being updated by Aaron to reflect Neuronpedia's latest features and improvements. This is a migration from Docusaurus to Mintlify.
 
 ## Development
 
@@ -34,10 +26,14 @@ Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/sett
 
 ## Need help?
 
+For questions about Neuronpedia itself, please email [johnny@neuronpedia.org](mailto:johnny@neuronpedia.org).
+
 ### Troubleshooting
 
 - If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
 - If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
 
 ### Resources
+- [Neuronpedia](https://neuronpedia.org)
+- [Neuronpedia Blog](https://neuronpedia.org/blog)
 - [Mintlify documentation](https://mintlify.com/docs)
