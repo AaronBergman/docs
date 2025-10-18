@@ -1,48 +1,124 @@
 ---
-sidebar_position: 1
-slug: /
+title: Introduction
+description: Welcome to Neuronpedia - the open source platform for mechanistic interpretability research
 ---
-
-import { Tweet } from "../src/components/Tweet.tsx";
-import { TweetNoHeader } from "../src/components/TweetNoHeader.tsx";
 
 # Introduction
 
-> ⚠️ **Warning:** These docs are in the process of being updated - the latest significant revision was September 2024. Neuronpedia has expanded beyond SAE-specific research to include probes, "concepts", transcoders, and more. Additionally, Neuronpedia has many more functionalities than documented here.
-
 ![Neuronpedia Logo](/images/intro.gif)
 
-### What is Neuronpedia?
+## What is Neuronpedia?
 
-[Neuronpedia](https://neuronpedia.org) is an open platform for mechanistic interpretability research. It's both a public database of useful data for researchers (including activations, explanations, and metadata, and more), as well as a suite of free APIs/tools that accelerate white-box understanding and experimentation of neural networks.
+[Neuronpedia](https://neuronpedia.org) is an **open source platform** for mechanistic interpretability research. It's both a public database of useful data for researchers (including activations, explanations, metadata, and more), as well as a suite of free APIs and tools that accelerate white-box understanding and experimentation of neural networks.
 
-![Diagram showing feature overview of Neuronpedia.](/images/neuronpedia-features.png)
+Since March 2025, Neuronpedia has been fully open source - meaning you can use the hosted version at neuronpedia.org, or deploy your own custom instance with your own models and data.
 
-These docs explain Neuronpedia's features and how to use them. Please [email us](mailto:johnny@neuronpedia.org) if you have further questions or comments. We love feedback!
+Neuronpedia has expanded beyond its initial focus on Sparse Autoencoders (SAEs) to support all forms of mechanistic interpretability research, including **circuit tracing**, **probes**, **concepts**, **transcoders**, and more.
 
-### Why Neuronpedia?
+The platform is supported by [OpenPhil](https://www.openphilanthropy.org/) and developed in collaboration with leading interpretability researchers and organizations.
 
-TL;DR - Researchers do research. We accelerate them by doing everything else: visualizations, tooling, sharing/collaboration, scaling, and hosting.
+## Open Source & Self-Hosting
 
-### Research Focus
+As of March 2025, Neuronpedia is **fully open source**! This means you can:
 
-Neuronpedia was previously focused specifically on SAE (Sparse Autoencoder) research. However, the infrastructure is now generalized to support all mech interp research, including but not limited to probes, "concepts", transcoders, and more.
+- **Use the hosted version** at [neuronpedia.org](https://neuronpedia.org) (no setup required)
+- **Deploy your own instance** with one click using Vercel
+- **Fork and customize** for research projects or startups
+- **Contribute code** to benefit the entire community
+- **Access 4+ terabytes** of public interpretability datasets
 
-### Demo Tweets (Short)
+### Quick Deploy
 
-Here's our launch tweet thread with GIFs showcasing Neuronpedia. It's a bit outdated now, but it's still a fun and relevant demo:
+Deploy your own Neuronpedia instance instantly:
 
-<Tweet
-  id="1773403396130885844"
-  apiUrl={`https://www.neuronpedia.org/api/doc-tweets/1773403396130885844`}
-/>
-<TweetNoHeader
-  id="1773403397489881423"
-  apiUrl={"https://www.neuronpedia.org/api/doc-tweets/1773403397489881423"}
-/>
-<TweetNoHeader
-  id="1773403398928503024"
-  apiUrl={"https://www.neuronpedia.org/api/doc-tweets/1773403398928503024"}
-/>
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhijohnnylin%2Fneuronpedia&env=NEXT_PUBLIC_SITE_NAME_VERCEL_DEPLOY&envDescription=***Your%20Custom%20Website%20Name.%20For%20example%3A%20PuppyNeurons***&root-directory=apps/webapp&build-command=npx%20prisma%20generate%20%26%26%20npm%20run%20build%3Ademo&project-name=my-neuronpedia&repository-name=my-neuronpedia&demo-title=Neuronpedia&demo-description=Deploy%20your%20own%20custom%20Neuronpedia%20%F0%9F%9A%80%F0%9F%A7%A0%F0%9F%A7%90&demo-url=https%3A%2F%2Fneuronpedia.org)
 
-For even more detail and background, check out our launch post on [LessWrong](https://www.lesswrong.com/posts/BaEQoxHhWPrkinmxd/announcing-neuronpedia-as-a-platform-to-accelerate-research).
+Or explore the code on [GitHub](https://github.com/hijohnnylin/neuronpedia).
+
+### Public Datasets
+
+Download 4+ terabytes of interpretability data including:
+- 11 models
+- 60+ million latents/features/concepts
+- 50+ million explanations
+- 3+ billion activations
+
+Access the datasets at: [neuronpedia-datasets.s3.us-east-1.amazonaws.com](https://neuronpedia-datasets.s3.us-east-1.amazonaws.com/index.html?prefix=v1)
+
+Read more about the open source release in our [blog post](https://neuronpedia.org/blog/neuronpedia-is-now-open-source).
+
+## Current Features
+
+Neuronpedia provides a comprehensive suite of tools for interpretability research:
+
+![Feature overview of Neuronpedia as of March 2025](/images/neuronpedia-features.png)
+
+### Core Capabilities
+
+- **🔍 Search** - Find features by running inference on arbitrary text, or search by explanations
+- **🧭 Circuit Tracer** - Generate and analyze attribution graphs to understand model reasoning
+- **🎯 Steering** - Control model outputs using SAE features or custom steering vectors
+- **🤖 Auto-Interpretation** - Generate explanations for features using multiple methods (including EleutherAI integration)
+- **📊 Dashboards** - Explore individual features with activations, explanations, and metadata
+- **📋 Lists** - Organize and share collections of interesting features
+- **🐍 Python Library** - Programmatic access to all Neuronpedia functionality
+- **🔌 REST API** - Full API for integrating Neuronpedia into your workflows
+- **💾 Public Datasets** - 4+ TB of freely available interpretability data
+
+### Supported Models
+
+Neuronpedia supports multiple models including:
+- GPT2-Small
+- Gemma 2 (2B, 9B variants)
+- Llama 3.1 (8B)
+- Llama 3.2
+- Pythia models
+- Qwen3 (4B)
+- And more being added regularly
+
+## Why Neuronpedia?
+
+**TL;DR** - Researchers do research. We accelerate them by doing everything else: visualizations, tooling, sharing/collaboration, scaling, and hosting.
+
+Whether you're a mechanistic interpretability researcher, a student learning about AI safety, or someone curious about how neural networks work, Neuronpedia provides the infrastructure you need to explore, understand, and experiment with model internals.
+
+With open source access, you can now customize Neuronpedia for your specific needs - whether that's analyzing proprietary models, building applied interpretability tools, or conducting novel research.
+
+## Getting Started
+
+Ready to dive in? Here are your options:
+
+### Use the Hosted Version
+Visit [neuronpedia.org](https://neuronpedia.org) to start exploring immediately - no setup required.
+
+### Deploy Your Own
+- **Quick Deploy**: Use the [Vercel deploy button](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhijohnnylin%2Fneuronpedia) above
+- **Custom Setup**: Clone from [GitHub](https://github.com/hijohnnylin/neuronpedia) and follow the setup guide
+
+### Access Datasets
+Download interpretability data from [neuronpedia-datasets](https://neuronpedia-datasets.s3.us-east-1.amazonaws.com/index.html?prefix=v1)
+
+### Join the Community
+- **Slack**: [Join the Open Source Mechanistic Interpretability workspace](https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-375zalm04-GFd5tdBU1yLKlu_T_JSqZQ)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/hijohnnylin/neuronpedia/issues)
+- **Email**: Reach out to [johnny@neuronpedia.org](mailto:johnny@neuronpedia.org)
+
+### Read the Documentation
+Continue through these docs to learn about specific features and how to use them. Check out the [blog](https://neuronpedia.org/blog) for updates and tutorials.
+
+## Learn More
+
+- **Blog Post**: [Neuronpedia is Now Open Source](https://neuronpedia.org/blog/neuronpedia-is-now-open-source)
+- **Twitter Thread**: [Open source announcement with demos](https://x.com/neuronpedia/status/1906793456879775745)
+- **Launch Post**: [Announcing Neuronpedia on LessWrong](https://www.lesswrong.com/posts/BaEQoxHhWPrkinmxd/announcing-neuronpedia-as-a-platform-to-accelerate-research)
+- **The Babble Podcast**: [NotebookLM-generated podcast about Neuronpedia](https://podcasts.apple.com/us/podcast/the-babble-a-residual-stream-podcast/id1809283401)
+
+## Research Focus
+
+Neuronpedia was created to accelerate mechanistic interpretability research and support researchers working on AI safety and alignment. The platform infrastructure is designed to be model-agnostic and method-agnostic, supporting not just Sparse Autoencoders but all approaches to understanding model internals - including probes, concepts, transcoders, circuit analysis, and future methods yet to be developed.
+
+We work closely with researchers at leading labs and universities to ensure Neuronpedia meets the needs of cutting-edge interpretability science.
+
+---
+
+**Have feedback or questions?** Please [email us](mailto:johnny@neuronpedia.org) - we love hearing from users!
