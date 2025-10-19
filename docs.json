@@ -9,18 +9,40 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "pages": [
-      "introduction",
-      "features",
-      "search",
-      "sparse-autoencoder",
-      "lists",
-      "embed-iframe",
-      "steering",
-      "upload-saes",
-      "api",
-      "case-studies",
-      "feedback"
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "introduction",
+          "sparse-autoencoder"
+        ]
+      },
+      {
+        "group": "Core Features",
+        "pages": [
+          "features",
+          "search",
+          "steering",
+          "attribution-graphs",
+          "auto-interp",
+          "lists"
+        ]
+      },
+      {
+        "group": "Developers",
+        "pages": [
+          "python-library",
+          "api",
+          "upload-saes"
+        ]
+      },
+      {
+        "group": "Additional",
+        "pages": [
+          "embed-iframe",
+          "feedback"
+        ]
+      }
     ],
     "global": {
       "anchors": [
@@ -33,6 +55,16 @@
           "anchor": "Blog",
           "href": "https://neuronpedia.org/blog",
           "icon": "newspaper"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/hijohnnylin/neuronpedia",
+          "icon": "github"
+        },
+        {
+          "anchor": "Slack",
+          "href": "https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-375zalm04-GFd5tdBU1yLKlu_T_JSqZQ",
+          "icon": "slack"
         }
       ]
     }
@@ -65,7 +97,7 @@
   "footer": {
     "socials": {
       "x": "https://x.com/neuronpedia",
-      "github": "https://github.com/hijohnnylin/neuronpedia-docs"
+      "github": "https://github.com/hijohnnylin/neuronpedia"
     }
   }
 }
