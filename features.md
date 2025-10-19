@@ -29,7 +29,7 @@ Let's explore feature 650 from GPT2-Small, layer 6, SAE Set `RES_SCEFR-AJT`:
 
 [`https://neuronpedia.org/gpt2-small/6-res_scefr-ajt/650`](https://neuronpedia.org/gpt2-small/6-res_scefr-ajt/650)
 
-![Screenshot of a feature dashboard at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-dashboard.png)
+![Screenshot of a feature dashboard at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](images/feature-dashboard.png)
 
 ## Feature Dashboard Components
 
@@ -63,7 +63,7 @@ See real examples of text where the feature activated strongly:
 
 Auto-interpretation uses AI models (GPT-4, Claude, or specialized explainers) to generate human-readable explanations of what a feature detects.
 
-![Screenshot of a feature explanation at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-explanation.png)
+![Screenshot of a feature explanation at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](images/feature-explanation.png)
 
 ### Multiple Explanation Methods
 
@@ -84,7 +84,7 @@ Explanations can be scored to evaluate quality:
 
 Scores range from 0-100. Click any score to see scoring details:
 
-![Screenshot of a feature score and details at https://www.neuronpedia.org/gpt2-small/6/200](img/feature-scored.png)
+![Screenshot of a feature score and details at https://www.neuronpedia.org/gpt2-small/6/200](images/feature-scored.png)
 
 ### How to Generate Explanations
 
@@ -109,7 +109,7 @@ Every feature can be tested with custom text to validate theories and explore be
 3. View activation strengths on each token
 4. Adjust text to explore different contexts
 
-![Screenshot of a feature test at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-test.png)
+![Screenshot of a feature test at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](images/feature-test.png)
 
 ### Share Your Tests
 
@@ -227,7 +227,7 @@ Learn more: [Python Library documentation](python-library)
 
 When you share a feature link on Slack, Twitter, or other platforms, a preview image is automatically generated:
 
-![Screenshot of the OpenGraph image preview for https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-slack.png)
+![Screenshot of the OpenGraph image preview for https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](images/feature-slack.png)
 
 ### Embedding Features
 

@@ -1,5 +1,6 @@
 ---
-sidebar_position: 4
+title: Lists
+description: Organize and share collections of features; create quick lists and embed them
 ---
 
 # Lists & Embed Lists
@@ -13,7 +14,7 @@ Lists let you save features and link to them in one page. They're commonly used 
 ### Example
 
 Here's a list of ["movie sentiment" features](https://www.neuronpedia.org/list/clt3c1c200001298tvcoquyt7) from GPT2-Small, layer 8:
-![Screenshot of a list on Neuronpedia](img/lists.png)
+![Screenshot of a list on Neuronpedia](images/lists.png)
 
 ### Creating & Adding To Lists
 
