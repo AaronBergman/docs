@@ -25,7 +25,7 @@ Here's an [example search](https://www.neuronpedia.org/gpt2-small/?sourceSet=res
 
 `Charles Dickens' 'Great Expectations' skillfully weaves a tale of personal growth and societal critique, as young Pip's journey from humble beginnings to the complexities of London society reveals the illusions of wealth and class.`
 
-![Screenshot of a search on Neuronpedia](images/search.png)
+![Screenshot of a search on Neuronpedia](https://github.com/AaronBergman/docs/blob/main/images/search.png)
 
 ### Sort by Specific Tokens
 
@@ -36,7 +36,7 @@ Want to see which features activate most on specific words?
 
 In this example, we selected "Great Expectations" from the search tokens. The results now show features that activate most strongly on those specific words:
 
-![Screenshot of a search on Neuronpedia, sorted to specific tokens.](images/search-great-expectations.png)
+![Screenshot of a search on Neuronpedia, sorted to specific tokens.](https://github.com/AaronBergman/docs/blob/main/images/search-great-expectations.png)
 
 ### Filter by Layer
 
@@ -47,7 +47,7 @@ To see results from only specific layers:
 
 Below, we've filtered to only layers 2 and 4, so all results come from `2-RES-JB` or `4-RES-JB`:
 
-![Screenshot of a search on Neuronpedia, sorted to specific tokens and filtered to only layers 2 and 4.](images/search-layers.png)
+![Screenshot of a search on Neuronpedia, sorted to specific tokens and filtered to only layers 2 and 4.](https://github.com/AaronBergman/docs/blob/main/images/search-layers.png)
 
 ## Testing Features with Custom Text
 
@@ -67,7 +67,7 @@ This is useful for:
 
 Example: Testing a "Measurement" feature with different types of measurements:
 
-![Screenshot of a feature test at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](images/feature-test.png)
+![Screenshot of a feature test at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](https://github.com/AaronBergman/docs/blob/main/images/feature-test.png)
 
 ## Share Custom Activation Results
 

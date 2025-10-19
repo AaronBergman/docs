@@ -27,7 +27,7 @@ The `GPT2-SMALL@9-RES-JB` SAE refers to:
 
 This SAE is located at [`https://neuronpedia.org/gpt2-small/9-res-jb`](https://neuronpedia.org/gpt2-small/9-res-jb).
 
-![Screenshot of https://neuronpedia.org/gpt2-small/9-res-jb showing a UMAP and dots representing features.](images/sae-example.png)
+![Screenshot of https://neuronpedia.org/gpt2-small/9-res-jb showing a UMAP and dots representing features.](https://github.com/AaronBergman/docs/blob/main/images/sae-example.png)
 
 ## SAE Organization: Sets & Releases
 
@@ -46,7 +46,7 @@ One or more SAE Sets, typically corresponding to a research paper and containing
 - MLP Post ([MLP-SM](https://www.neuronpedia.org/pythia-70m-deduped/mlp-sm))
 - Residuals ([RES-SM](https://www.neuronpedia.org/pythia-70m-deduped/res-sm))
 
-![Diagram that shows SAE Release as the largest rectangle, with two SAE Sets in that rectangle, and 3 SAEs in each of the 2 SAE Sets.](images/sae-groupings.png)
+![Diagram that shows SAE Release as the largest rectangle, with two SAE Sets in that rectangle, and 3 SAEs in each of the 2 SAE Sets.](https://github.com/AaronBergman/docs/blob/main/images/sae-groupings.png)
 
 ## Supported Models & SAE Releases
 

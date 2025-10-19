@@ -18,7 +18,7 @@ Neuronpedia features can be embedded on your site, documentation, or third-party
 
 Every feature has an `Embed Code/Link` section with a Copy icon for quick embedding:
 
-![Screenshot of a embed code at https://neuronpedia.org/gpt2-small/0-res-jb/14057](images/embedcode.png)
+![Screenshot of a embed code at https://neuronpedia.org/gpt2-small/0-res-jb/14057](https://github.com/AaronBergman/docs/blob/main/images/embedcode.png)
 
 Or construct your own by adding `?embed=true` to any feature URL.
 
