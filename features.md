@@ -1,62 +1,282 @@
 ---
-sidebar_position: 2
+title: Features
+description: Explore individual SAE features with dashboards, explanations, and interactive tools
 slug: /features
 ---
 
 # SAE Features
 
-### What's a Feature?
+## What's a Feature?
 
-Sparse Autoencoders identify many **features** in a model, each of which is a "thing that the model knows". A **feature dashboard** on Neuronpedia is an informative and interactive way to examine a feature. It shows us details about specific feature, including statistics, positive and negative logits, and correlated neurons, and top activations. We can also explain add the feature to lists, comment on the feature, and instantly test the feature's activations on custom text.
+Sparse Autoencoders identify many **features** in a model, each representing a concept or pattern that the model has learned. A **feature dashboard** on Neuronpedia is an interactive way to examine a feature, showing:
 
-A feature's ID is `[MODEL_ID]@[SAE_ID]:[FEATURE_INDEX]`.
+- Statistics and metadata
+- Positive and negative logits
+- Correlated neurons
+- Top activations
+- Auto-generated explanations
+- Custom activation testing
 
-Each individual feature is located at URL:
-`https://neuronpedia.org/[MODEL_ID]/[SAE_ID]/[FEATURE_INDEX]`
+## Feature URLs
 
-For this page, we'll use an example feature in `GPT2-Small`, layer 6, for the SAE Set `RES_SCEFR-AJT`, at index 650. Its URL is:
+Each feature has a unique ID: `[MODEL_ID]@[SAE_ID]:[FEATURE_INDEX]`
+
+Features are located at: `https://neuronpedia.org/[MODEL_ID]/[SAE_ID]/[FEATURE_INDEX]`
+
+### Example Feature
+
+Let's explore feature 650 from GPT2-Small, layer 6, SAE Set `RES_SCEFR-AJT`:
+
 [`https://neuronpedia.org/gpt2-small/6-res_scefr-ajt/650`](https://neuronpedia.org/gpt2-small/6-res_scefr-ajt/650)
-
-### Example - Feature Page
-
-The feature page shows lots of data and can seem a little overwhelming at first. We'll break it down below:
 
 ![Screenshot of a feature dashboard at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-dashboard.png)
 
-When you share a link to a feature such as the one above into places like Slack or Twitter, a preview image is automatically generated and displayed alongside the feature's ID. The following shows the preview for the example feature, pasted into Slack:
-![Screenshot of the OpenGraph image preview for https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-slack.png)
+## Feature Dashboard Components
 
-### Example - JSON API
+### Basic Statistics
 
-It's simple to get the JSON version of the data above. Just add `/api/feature/` right after the `https://neuronpedia.org` in the URL.
+Every feature dashboard shows:
+- **Activation frequency** - How often the feature activates
+- **Max activation** - Strongest activation value seen
+- **Feature sparsity** - How selective the feature is
+- Hover over (?) icons for detailed explanations
 
-Example Feature: [`https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650`](https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650)
+### Logits Analysis
 
-JSON: [`https://www.neuronpedia.org/api/feature/gpt2-small/6-res_scefr-ajt/650`](https://www.neuronpedia.org/api/feature/gpt2-small/6-res_scefr-ajt/650)
+View the top positive and negative logits to understand:
+- What tokens the feature promotes
+- What tokens the feature suppresses
+- How the feature influences model outputs
 
-They're GET requests, so you can use it in your browser. You can use our [API sandbox](https://neuronpedia.org/api-doc) to try it.
+### Top Activations
 
-### Example - Dashboard
+See real examples of text where the feature activated strongly:
+- Highlighted tokens show activation strength
+- Click to explore activation patterns
+- Sort and filter by activation values
 
-Most features on Neuronpedia have an Anthropic-style dashboard that shows basic statistical information about the feature, and top positive and negative logits. Hover over the (?) to see what each section of the dashboard is.
+## Auto-Interpretation & Explanations
 
-### Example - Explanations
+**Updated in November 2024** with EleutherAI integration!
 
-For many features on Neuronpedia, we have shown the top activations to GPT-3.5-Turbo or GPT-4 and asked it to explain what it thinks this feature is about. This is called **automatic interpretation**, or **autointerp** for short. These explanations show up on the top left of the feature page.
+### What is Auto-Interpretation?
+
+Auto-interpretation uses AI models (GPT-4, Claude, or specialized explainers) to generate human-readable explanations of what a feature detects.
 
 ![Screenshot of a feature explanation at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-explanation.png)
 
-You can also vote for explanations, and add your own explanation.
-Some explanations are also scored. The score is up to 100, and also uses GPT-3.5-Turbo or GPT-4 to evaluate how good the explanation is. Clicking on a score shows details on how the scoring was performed. Learn more about Neuronpedia's scoring at the [Neuronpedia Scorer Github](https://github.com/hijohnnylin/neuronpedia-scorer).
+### Multiple Explanation Methods
+
+Generate explanations using different approaches:
+
+1. **GPT-4 / GPT-3.5-Turbo** - Based on top activations
+2. **EleutherAI Explainer** - Specialized interpretability model
+3. **Community explanations** - Human-written descriptions
+
+### Explanation Scoring
+
+Explanations can be scored to evaluate quality:
+
+- **GPT-based scoring** - Traditional scoring method
+- **EleutherAI Embedding** - Semantic similarity scoring
+- **EleutherAI Fuzz** - Fuzzy matching scoring
+- **EleutherAI Recall** - Recall-based evaluation
+
+Scores range from 0-100. Click any score to see scoring details:
 
 ![Screenshot of a feature score and details at https://www.neuronpedia.org/gpt2-small/6/200](img/feature-scored.png)
 
-### Example - Test Activations
+### How to Generate Explanations
 
-Every feature on Neuronpedia can be tested live with custom text, to experiment with and/or validate theories about how a feature behaves. Here's a test for the "Measurement" feature.
+1. Navigate to a feature dashboard
+2. Click the explanation type dropdown
+3. Select your preferred method (e.g., "EleutherAI Explainer")
+4. Click "Generate"
+5. View the explanation and optional score
+
+You can also vote on explanations and add your own!
+
+## Test Activations
+
+**Updated with sharing functionality in November 2024!**
+
+Every feature can be tested with custom text to validate theories and explore behavior.
+
+### How to Test
+
+1. Find the "Test Activations" section on any feature
+2. Enter your custom text
+3. View activation strengths on each token
+4. Adjust text to explore different contexts
 
 ![Screenshot of a feature test at https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-test.png)
 
-### Example - Lists & More
+### Share Your Tests
 
-Features can be added to lists, which themselves can have descriptions. Every feature has a comment section for discussion, and features can also be "starred" (bookmarked) for personal reference later on.
+**New:** Click the **"↑ Share"** button to:
+- Generate a shareable link with your custom test
+- Share activation results with colleagues
+- Embed tests in documentation or posts
+- No more screenshots needed!
+
+See [Search documentation](search) for more details on sharing.
+
+## Feature Lists
+
+Organize and curate collections of interesting features:
+
+- **Create lists** with descriptions and themes
+- **Add features** from any model or SAE
+- **Share lists** publicly or keep them private
+- **Collaborate** with other researchers
+
+Lists are perfect for:
+- Research projects
+- Teaching materials
+- Documenting findings
+- Comparing related features
+
+Learn more: [Lists documentation](lists)
+
+## Comments & Discussion
+
+Every feature has a comment section where you can:
+- Discuss interpretations
+- Share insights
+- Ask questions
+- Collaborate with the community
+
+## Starring Features
+
+Bookmark interesting features by **starring** them:
+- Quick access from your profile
+- Personal reference library
+- Track features across projects
+
+## Advanced Features
+
+### Cosine Similarity
+
+Compare features to find related concepts:
+- Find similar features across layers
+- Discover feature clusters
+- Understand feature relationships
+
+### Steering
+
+Use features to control model outputs:
+- Increase or decrease feature strength
+- See how outputs change
+- Experiment with model behavior
+
+Learn more: [Steering documentation](steering)
+
+### Attribution Graphs
+
+Visualize how features connect and influence each other:
+- See feature relationships
+- Understand circuits
+- Trace model reasoning
+
+Learn more: [Attribution Graphs documentation](attribution-graphs)
+
+## Accessing Features Programmatically
+
+### JSON API
+
+Get feature data in JSON format by adding `/api/feature/` to the URL:
+
+**Feature page**: [`https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650`](https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650)
+
+**JSON endpoint**: [`https://www.neuronpedia.org/api/feature/gpt2-small/6-res_scefr-ajt/650`](https://www.neuronpedia.org/api/feature/gpt2-small/6-res_scefr-ajt/650)
+
+### Python Library
+
+Use the Neuronpedia Python Library for easy programmatic access:
+
+```python
+from neuronpedia import NeuronpediaClient
+
+client = NeuronpediaClient()
+
+# Get feature data
+feature = client.get_feature(
+    model="gpt2-small",
+    sae_id="6-res_scefr-ajt",
+    index=650
+)
+
+# Generate explanation
+explanation = client.generate_explanation(
+    feature_id=feature.id,
+    method="eleuther"
+)
+
+# Test with custom text
+activations = client.test_feature(
+    feature_id=feature.id,
+    text="Your custom text here"
+)
+```
+
+Learn more: [Python Library documentation](python-library)
+
+## Sharing Features
+
+### OpenGraph Previews
+
+When you share a feature link on Slack, Twitter, or other platforms, a preview image is automatically generated:
+
+![Screenshot of the OpenGraph image preview for https://www.neuronpedia.org/gpt2-small/6-res_scefr-ajt/650](img/feature-slack.png)
+
+### Embedding Features
+
+Embed feature dashboards in:
+- Blog posts
+- Research papers
+- Documentation sites
+- LessWrong posts (native support)
+
+Learn more: [Embedding documentation](embed-iframe)
+
+## Upload Your Own Features
+
+**New in November 2024:** Upload custom dashboards with the Python Library!
+
+You can now upload:
+- Custom vectors
+- Features from your own SAEs
+- Probes and concepts
+- Any interpretability artifacts
+
+Uploaded features automatically get:
+- Activation testing
+- Auto-interpretation
+- Scoring
+- Steering support
+- Lists and sharing
+- All Neuronpedia infrastructure
+
+Upload in just 5 lines of code:
+
+```python
+from neuronpedia import upload_dashboard
+
+dashboard_id = upload_dashboard(
+    model="your-model",
+    vector=[0.1, 0.2, 0.3, ...],
+    name="My Custom Feature"
+)
+```
+
+Learn more: [Upload documentation](upload-saes) and [Python Library](python-library)
+
+## Learn More
+
+- [Search](search) - Find features by activation or explanation
+- [Steering](steering) - Control model outputs with features
+- [Lists](lists) - Organize and share feature collections
+- [Attribution Graphs](attribution-graphs) - Visualize feature circuits
+- [Auto-Interpretation](auto-interp) - Generate and score explanations
+- [API Documentation](api) - Programmatic access
+- [Python Library](python-library) - Easiest way to interact with features
