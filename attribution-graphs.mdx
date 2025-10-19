@@ -1,0 +1,262 @@
+---
+title: Attribution Graphs
+description: Visualize and analyze feature circuits and model reasoning with attribution graphs
+---
+
+# Attribution Graphs
+
+## What are Attribution Graphs?
+
+Attribution graphs (also called circuits) are visual representations of how features in a neural network connect and influence each other. They help researchers:
+
+- **Understand model reasoning** - See which features activate other features
+- **Discover circuits** - Find meaningful computational pathways
+- **Trace information flow** - Follow how concepts propagate through layers
+- **Debug model behavior** - Identify unexpected feature interactions
+
+Think of attribution graphs as a "map of model thoughts" - showing how simple features in early layers combine to form complex concepts in later layers.
+
+## Key Concepts
+
+### Nodes
+Each node in an attribution graph represents a **feature** - a specific pattern or concept the model has learned.
+
+### Edges
+Edges (connections) show **attribution** - how strongly one feature influences another. Thicker or more prominent edges indicate stronger relationships.
+
+### Layers
+Attribution graphs typically show features across different layers, revealing how the model builds up abstractions from simple patterns to complex concepts.
+
+## How to Generate Attribution Graphs
+
+<!-- [Screenshot needed: Attribution graph UI showing where to click to generate] -->
+
+### From a Feature Dashboard
+
+1. **Navigate to any feature** you want to analyze
+2. **Click the "Attribution" or "Graph" tab** in the feature dashboard
+3. **Select graph parameters**:
+   - Depth: How many layers to traverse
+   - Threshold: Minimum attribution strength to show
+   - Direction: Upstream (what feeds into this feature) or downstream (what this feature influences)
+4. **Click "Generate Graph"**
+5. **Explore the visualization** - click nodes to see details, zoom and pan
+
+### Using the Python Library
+
+```python
+from neuronpedia import NeuronpediaClient
+
+client = NeuronpediaClient()
+
+# Generate attribution graph for a feature
+graph = client.generate_attribution_graph(
+    feature_id="gpt2-small@9-res-jb:1234",
+    depth=3,  # Traverse 3 layers
+    threshold=0.1,  # Show connections > 0.1 strength
+    direction="upstream"  # or "downstream"
+)
+
+# Visualize in a notebook
+graph.visualize()
+
+# Or export for external tools
+graph.export_json("attribution_graph.json")
+graph.export_graphviz("attribution_graph.dot")
+```
+
+## Example Attribution Graphs
+
+### Example 1: Simple Concept Building
+
+<!-- [Screenshot needed: Attribution graph showing simple features combining] -->
+
+This graph shows how basic features (e.g., "the", "space", "punctuation") in early layers combine to form a more complex "sentence boundary" feature in a later layer.
+
+### Example 2: Reasoning Circuit
+
+<!-- [Screenshot needed: Attribution graph showing reasoning circuit] -->
+
+A more complex circuit showing how features related to "numbers", "comparison operators", and "mathematical operations" connect to form a feature that detects mathematical reasoning.
+
+### Example 3: Safety-Relevant Circuit
+
+<!-- [Screenshot needed: Attribution graph for safety feature] -->
+
+This graph traces features related to harmful content detection, showing how the model identifies and processes potentially unsafe inputs.
+
+## Sharing Attribution Graphs
+
+### Share Subgraphs
+
+You can share interesting subgraphs you discover:
+
+1. **Select nodes** in the visualization you want to include
+2. **Click "Share Subgraph"**
+3. **Copy the link** or download as image
+4. **Post to community channels** for discussion
+
+### Community Gallery
+
+Browse attribution graphs shared by other researchers:
+- Visit [neuronpedia.org/graphs](https://neuronpedia.org/graphs) <!-- TODO: Verify this URL -->
+- Filter by model, topic, or author
+- Fork interesting graphs to explore further
+
+## Interpreting Attribution Graphs
+
+### Strong vs Weak Connections
+
+- **Strong connections** (thick edges): Feature A reliably activates when Feature B activates
+- **Weak connections** (thin edges): Occasional or conditional relationships
+- **No connection**: Features operate independently
+
+### Upstream vs Downstream
+
+- **Upstream graph**: Shows what features feed *into* your target feature
+  - Useful for understanding "what causes this feature to activate?"
+- **Downstream graph**: Shows what features are influenced *by* your target feature
+  - Useful for understanding "what effect does this feature have?"
+
+### Circuit Patterns
+
+Common patterns you might discover:
+
+- **Fan-in**: Many simple features combining into one complex feature
+- **Fan-out**: One feature influencing many downstream features
+- **Loops**: Features that reinforce each other (rare but interesting!)
+- **Hierarchies**: Clear layered structure from simple to complex
+
+## Advanced Usage
+
+### Batch Graph Generation
+
+Generate attribution graphs for multiple features:
+
+```python
+feature_ids = [
+    "gpt2-small@6-res-jb:100",
+    "gpt2-small@6-res-jb:200",
+    "gpt2-small@6-res-jb:300"
+]
+
+graphs = client.batch_generate_graphs(feature_ids, depth=2)
+
+for feature_id, graph in graphs.items():
+    graph.save(f"{feature_id}_graph.png")
+```
+
+### Compare Graphs
+
+Compare attribution graphs between different models or SAEs:
+
+```python
+# Generate graph for same feature in different models
+graph_gpt2 = client.generate_attribution_graph(
+    "gpt2-small@6-res-jb:650"
+)
+
+graph_gemma = client.generate_attribution_graph(
+    "gemma-2b@6-res-jb:650"
+)
+
+# Visualize side-by-side
+compare_graphs(graph_gpt2, graph_gemma)
+```
+
+### Export for Analysis
+
+Export graphs for external analysis tools:
+
+```python
+# Export as NetworkX graph for analysis
+import networkx as nx
+
+G = graph.to_networkx()
+
+# Analyze graph properties
+print(f"Nodes: {G.number_of_nodes()}")
+print(f"Edges: {G.number_of_edges()}")
+print(f"Density: {nx.density(G)}")
+
+# Find important nodes
+centrality = nx.betweenness_centrality(G)
+top_nodes = sorted(centrality.items(), key=lambda x: x[1], reverse=True)[:5]
+```
+
+## Collaborate & Share
+
+### Slack Channel
+
+Join the **#open-source-attribution-graphs** channel in the [Open Source Mechanistic Interpretability Slack](https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-375zalm04-GFd5tdBU1yLKlu_T_JSqZQ) to:
+
+- Share interesting graphs you discover
+- Ask questions about interpretation
+- Collaborate on circuit analysis
+- Get feedback from the community
+
+### Contribute Circuits
+
+Help build the public database of circuits:
+
+1. Document interesting circuits you find
+2. Add interpretations and explanations
+3. Submit via the community interface
+4. Help others understand model internals
+
+## Technical Details
+
+### Attribution Computation
+
+Neuronpedia computes attribution using:
+
+- **Direct attribution**: Activation correlations between features
+- **Gradient-based attribution**: How changes in one feature affect another
+- **Path attribution**: Total influence through all paths
+
+### Performance Tips
+
+For large graphs:
+
+- Start with smaller depth (2-3 layers)
+- Use higher thresholds to show only strong connections
+- Generate graphs incrementally rather than all at once
+- Use the Python library for batch operations
+
+## Useful Links
+
+### Research & Background
+
+- [Anthropic's Circuits Thread](https://transformer-circuits.pub/) - Foundational work on circuits
+- [Neuronpedia Blog: Attribution Graphs](https://neuronpedia.org/blog) - Tutorial and examples
+- [Mechanistic Interpretability Paper](https://arxiv.org/abs/...) <!-- TODO: Add relevant paper -->
+
+### Video Tutorials
+
+- [Attribution Graphs Tutorial on YouTube](#) <!-- TODO: Add link when available -->
+- [Circuit Analysis Workshop](#) <!-- TODO: Add link when available -->
+
+### Community & Discussion
+
+- [Open Source Mechanistic Interpretability Slack](https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-375zalm04-GFd5tdBU1yLKlu_T_JSqZQ)
+  - **#open-source-attribution-graphs** - Dedicated channel
+  - **#neuronpedia** - General Neuronpedia discussion
+
+### Related Neuronpedia Features
+
+- [Features](features) - Understanding individual features
+- [Search](search) - Finding related features
+- [Python Library](python-library) - Programmatic access
+- [API Documentation](api) - REST API endpoints
+
+## Coming Soon
+
+We're actively developing attribution graph features:
+
+- **Interactive 3D visualizations** - Explore circuits in 3D space
+- **Automated circuit discovery** - AI-assisted circuit finding
+- **Circuit templates** - Common patterns as reusable templates
+- **Cross-model comparison** - Compare circuits across different models
+- **Real-time collaboration** - Explore graphs together with others
+
+Stay tuned to the Neuronpedia blog and Slack for updates!

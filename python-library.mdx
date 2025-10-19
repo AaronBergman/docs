@@ -1,0 +1,352 @@
+---
+title: Python Library
+description: Official Neuronpedia Python library for programmatic access to all features
+---
+
+# Neuronpedia Python Library
+
+The **Neuronpedia Python Library** is the official, easiest way to interact with Neuronpedia programmatically. Released in November 2024, it provides complete access to Neuronpedia's features with a clean, intuitive API.
+
+## Why Use the Python Library?
+
+- **Simple**: Upload vectors and dashboards in ~5 lines of code
+- **Complete**: Covers all Neuronpedia functionality (search, steering, features, etc.)
+- **Well-documented**: 5+ example notebooks to get you started
+- **Actively maintained**: Direct support from the Neuronpedia team
+
+## Installation
+
+```bash
+pip install neuronpedia
+```
+
+## Quick Start
+
+### Upload a Custom Vector
+
+Upload and steer with a custom vector in just 3 lines:
+
+```python
+from neuronpedia import NeuronpediaClient
+
+client = NeuronpediaClient()
+
+# Upload your custom vector
+vector_id = client.upload_vector(
+    vector=[0.23, -0.45, 0.12, ...],  # Your vector values
+    name="My Custom Vector"
+)
+
+# Immediately use it for steering
+result = client.steer(
+    model="gemma-2b",
+    vector_id=vector_id,
+    strength=5,
+    prompt="The most iconic structure is"
+)
+
+print(result.text)
+```
+
+### Upload a Custom Dashboard
+
+Create a full feature dashboard with all Neuronpedia infrastructure in 5 lines:
+
+```python
+from neuronpedia import upload_dashboard
+
+dashboard_id = upload_dashboard(
+    model="your-model",
+    vector=[0.1, 0.2, 0.3, ...],
+    name="My Custom Feature",
+    description="A feature that detects..."
+)
+
+# Your dashboard now has:
+# - Activation testing
+# - Auto-interpretation
+# - Scoring
+# - Steering support
+# - Lists and sharing
+# - All Neuronpedia tools!
+```
+
+## Core Functionality
+
+### Search Features
+
+Search by activation or explanation:
+
+```python
+# Search by activation - find features that activate on your text
+results = client.search(
+    model="gpt2-small",
+    sae_set="res-jb",
+    text="Charles Dickens' 'Great Expectations'...",
+    top_k=20
+)
+
+# Search by explanation - find features by concept
+explanation_results = client.search_explanations(
+    query="parrots",
+    model="gpt2-small"
+)
+
+for feature in results:
+    print(f"{feature.id}: {feature.explanation}")
+```
+
+### Get Feature Data
+
+Retrieve complete feature information:
+
+```python
+# Get a specific feature
+feature = client.get_feature(
+    model="gpt2-small",
+    sae_id="6-res_scefr-ajt",
+    index=650
+)
+
+print(f"Feature: {feature.explanation}")
+print(f"Max activation: {feature.max_activation}")
+print(f"Top logits: {feature.top_logits}")
+
+# Access activations
+for activation in feature.top_activations:
+    print(f"Text: {activation.text}")
+    print(f"Tokens: {activation.tokens}")
+```
+
+### Steer with Features
+
+Control model outputs using SAE features:
+
+```python
+# Steer with an SAE feature
+result = client.steer(
+    model="gemma-2b",
+    feature_id="6-res-jb:10200",  # San Francisco feature
+    strength=5,
+    prompt="The most iconic structure on Earth is",
+    n_tokens=20
+)
+
+print(result.text)
+# Output influenced by the San Francisco feature
+
+# Steer with negative strength to suppress
+result = client.steer(
+    model="gemma-2b",
+    feature_id="6-res-jb:10200",
+    strength=-5,  # Negative to suppress
+    prompt="The most iconic structure on Earth is"
+)
+```
+
+### Generate Explanations
+
+Create auto-generated explanations for features:
+
+```python
+# Generate explanation using EleutherAI explainer
+explanation = client.generate_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    method="eleuther",
+    temperature=0.7
+)
+
+print(explanation.text)
+print(f"Confidence: {explanation.confidence}")
+
+# Score an explanation
+score = client.score_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    explanation="This feature detects measurements",
+    method="eleuther_embedding"
+)
+
+print(f"Score: {score.value}/100")
+```
+
+### Test Feature Activations
+
+Test how features activate on custom text:
+
+```python
+# Test a feature with your own text
+activations = client.test_feature(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    text="The measurement was 5.2 meters long"
+)
+
+for token, strength in zip(activations.tokens, activations.values):
+    print(f"{token}: {strength}")
+
+# Get shareable link for your test
+share_url = client.share_activation_test(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    text="The measurement was 5.2 meters long"
+)
+```
+
+### Work with Lists
+
+Organize features into curated collections:
+
+```python
+# Create a list
+my_list = client.create_list(
+    name="Interesting Measurement Features",
+    description="Features related to measurements and units"
+)
+
+# Add features to the list
+client.add_to_list(
+    list_id=my_list.id,
+    feature_ids=[
+        "gpt2-small@6-res_scefr-ajt:650",
+        "gpt2-small@9-res-jb:1234"
+    ]
+)
+
+# Get all features in a list
+features = client.get_list_features(list_id=my_list.id)
+```
+
+## Upload Workflows
+
+### Upload Custom Vectors
+
+```python
+# Upload a steering vector from a research paper
+vector_id = client.upload_vector(
+    vector=[0.1, -0.2, 0.3, ...],
+    name="Refusal Steering (Arditi et al.)",
+    description="Reduces model refusal behavior",
+    tags=["steering", "safety", "refusal"]
+)
+
+# Your vector is now available in "My Vectors"
+# and can be used for steering immediately
+```
+
+### Upload SAE Features
+
+```python
+# Upload features from your custom SAE
+for idx, vector in enumerate(sae_vectors):
+    client.upload_feature(
+        model="custom-model",
+        sae_id="my-sae-32k",
+        index=idx,
+        vector=vector,
+        metadata={
+            "sparsity": sparsity_values[idx],
+            "frequency": frequency_values[idx]
+        }
+    )
+```
+
+### Upload CrossCoders or Transcoders
+
+```python
+# Example: Upload Dumas/Minder CrossCoder features
+from neuronpedia import upload_crosscoder_features
+
+upload_crosscoder_features(
+    model="gemma-2b",
+    crosscoder_id="dumas-minder-v1",
+    features=crosscoder_features,  # Your feature vectors
+    layer=6
+)
+
+# Features automatically get:
+# - Auto-interpretation
+# - Scoring
+# - Steering support
+# - All Neuronpedia tools
+```
+
+## Example Notebooks
+
+The library comes with 5+ example Jupyter notebooks covering:
+
+1. **Getting Started** - Basic search, features, and steering
+2. **Custom Vectors** - Uploading and using custom steering vectors
+3. **Dashboard Upload** - Creating full feature dashboards
+4. **Auto-Interpretation** - Generating and scoring explanations
+5. **Advanced Workflows** - Combining multiple features, batch operations
+
+[View example notebooks on GitHub](#) <!-- TODO: Add actual link when available -->
+
+## Authentication
+
+For write operations (uploading, creating lists, etc.), you'll need to authenticate:
+
+```python
+from neuronpedia import NeuronpediaClient
+
+# Option 1: Environment variable
+# Set NEURONPEDIA_API_KEY in your environment
+
+client = NeuronpediaClient()  # Automatically uses env var
+
+# Option 2: Pass API key directly
+client = NeuronpediaClient(api_key="your-api-key")
+
+# Option 3: Config file
+# Create ~/.neuronpedia/config with your API key
+client = NeuronpediaClient()  # Reads from config
+```
+
+Get your API key from [neuronpedia.org/settings](https://neuronpedia.org/settings) (requires login).
+
+## Rate Limits
+
+The Python library respects the same rate limits as the web interface:
+
+- **Steering**: 100 requests per hour per user
+- **Search**: Unlimited for most operations
+- **Upload**: Contact us for bulk upload needs
+
+## API Coverage
+
+The Python library provides complete coverage of Neuronpedia's REST API:
+
+- ✅ Search (by activation and explanation)
+- ✅ Feature data and metadata
+- ✅ Steering (features and custom vectors)
+- ✅ Auto-interpretation and scoring
+- ✅ Activation testing
+- ✅ Lists and collections
+- ✅ Vector and dashboard upload
+- ✅ Sharing and embedding
+- ✅ Attribution graphs (coming soon)
+
+## TypeScript/JavaScript
+
+Looking for a JavaScript/TypeScript library? We're working on it! In the meantime, you can use the [REST API](api) directly.
+
+## Source Code & Contributing
+
+The Neuronpedia Python Library is open source:
+
+- **GitHub**: [github.com/hijohnnylin/neuronpedia-python](#) <!-- TODO: Add actual link -->
+- **Issues**: Report bugs or request features
+- **Pull Requests**: Contributions welcome!
+
+## Getting Help
+
+- **Documentation**: You're reading it!
+- **Example Notebooks**: See the examples/ directory in the repo
+- **Slack**: Join the [Open Source Mechanistic Interpretability workspace](https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-375zalm04-GFd5tdBU1yLKlu_T_JSqZQ)
+- **Email**: [johnny@neuronpedia.org](mailto:johnny@neuronpedia.org)
+
+## Learn More
+
+- [REST API Documentation](api) - Lower-level API access
+- [Upload SAEs](upload-saes) - Detailed upload guide
+- [Features](features) - Understanding feature dashboards
+- [Steering](steering) - Model steering guide
+- [Search](search) - Search functionality
