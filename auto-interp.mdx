@@ -1,0 +1,416 @@
+---
+title: Auto-Interpretation
+description: Automatically generate and score explanations for features using AI
+---
+
+# Auto-Interpretation
+
+## What is Auto-Interpretation?
+
+Auto-interpretation (or "autointerp") is the process of automatically generating human-readable explanations for what a feature detects. Instead of manually examining hundreds of activations, you can use AI to generate hypotheses about feature behavior.
+
+**Updated November 2024** with EleutherAI integration for improved explanation generation and scoring!
+
+## Why Auto-Interpret Features?
+
+Manual interpretation of features is time-consuming and doesn't scale. Auto-interpretation helps by:
+
+- **Generating initial hypotheses** - Get a starting point for understanding features
+- **Scaling to millions of features** - Explain entire SAEs automatically
+- **Comparing explanations** - Test different interpretation methods
+- **Validating hypotheses** - Score explanations against activation data
+
+## Explanation Methods
+
+Neuronpedia supports multiple explanation generation methods:
+
+### 1. GPT-4 / GPT-3.5-Turbo
+
+The traditional method using OpenAI's models:
+
+- Shown top activating examples
+- Asked to explain the common pattern
+- Good general-purpose explanations
+- Well-tested and reliable
+
+### 2. EleutherAI Explainer (New!)
+
+Specialized model trained for SAE feature interpretation:
+
+- **More accurate** for technical features
+- **Faster generation** than GPT-4
+- **Better at edge cases** and subtle patterns
+- **Open source** and transparent methodology
+
+### 3. Community Explanations
+
+Human-written explanations from researchers:
+
+- **Highest quality** for well-studied features
+- **Contextual understanding** and nuance
+- **Verified examples** and edge cases
+- Vote on explanations to surface the best ones
+
+## How to Generate Explanations
+
+### From the Web Interface
+
+<!-- [Screenshot needed: Explanation dropdown and Generate button] -->
+
+1. **Navigate to a feature dashboard**
+2. **Find the Explanation section** (usually top-left of the page)
+3. **Click the explanation type dropdown**
+4. **Select your preferred method**:
+   - EleutherAI Explainer (recommended for most features)
+   - GPT-4 (good general-purpose)
+   - GPT-3.5-Turbo (faster, lower cost)
+5. **Click "Generate"**
+6. **Wait a few seconds** for the explanation to appear
+7. **Review the explanation** and activations
+
+### Using the Python Library
+
+```python
+from neuronpedia import NeuronpediaClient
+
+client = NeuronpediaClient()
+
+# Generate explanation using EleutherAI
+explanation = client.generate_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    method="eleuther",
+    temperature=0.7
+)
+
+print(f"Explanation: {explanation.text}")
+print(f"Confidence: {explanation.confidence}")
+
+# Generate using GPT-4
+gpt4_explanation = client.generate_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    method="gpt4",
+    num_activations=20  # How many examples to show the model
+)
+```
+
+### Batch Generation
+
+Generate explanations for many features at once:
+
+```python
+feature_ids = [
+    "gpt2-small@6-res-jb:100",
+    "gpt2-small@6-res-jb:101",
+    "gpt2-small@6-res-jb:102"
+]
+
+explanations = client.batch_generate_explanations(
+    feature_ids=feature_ids,
+    method="eleuther"
+)
+
+for feature_id, explanation in explanations.items():
+    print(f"{feature_id}: {explanation.text}")
+```
+
+## Explanation Scoring
+
+Once you have an explanation, how do you know if it's accurate? Scoring methods evaluate explanations against actual activation data.
+
+### Scoring Methods
+
+**Updated November 2024** with three new EleutherAI scoring methods!
+
+#### 1. EleutherAI Embedding Score
+
+Measures semantic similarity between explanation and activations:
+
+- **Range**: 0-100 (higher is better)
+- **Fast**: Seconds per feature
+- **Use case**: General-purpose quality assessment
+
+```python
+score = client.score_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    explanation="This feature detects measurements and units",
+    method="eleuther_embedding"
+)
+
+print(f"Embedding score: {score.value}/100")
+```
+
+#### 2. EleutherAI Fuzz Score
+
+Fuzzy matching between explanation keywords and activation text:
+
+- **Range**: 0-100
+- **Fast**: Near-instant
+- **Use case**: Checking literal keyword matches
+
+```python
+score = client.score_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    explanation="This feature detects measurements and units",
+    method="eleuther_fuzz"
+)
+
+print(f"Fuzz score: {score.value}/100")
+```
+
+#### 3. EleutherAI Recall Score
+
+Tests if explanation predicts feature activations:
+
+- **Range**: 0-100
+- **Slower**: More comprehensive testing
+- **Use case**: Rigorous explanation validation
+
+```python
+score = client.score_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    explanation="This feature detects measurements and units",
+    method="eleuther_recall"
+)
+
+print(f"Recall score: {score.value}/100")
+print(f"Details: {score.details}")
+```
+
+#### 4. GPT-Based Scoring (Traditional)
+
+Uses GPT models to evaluate explanation quality:
+
+- **Range**: 0-100
+- **Comprehensive**: Considers many factors
+- **Use case**: Gold standard for complex features
+
+See the [Neuronpedia Scorer GitHub](https://github.com/hijohnnylin/neuronpedia-scorer) for details.
+
+### Score Details & Tooltips
+
+Click any score to see detailed breakdown:
+
+<!-- [Screenshot needed: Score details popup with tooltips] -->
+
+- **Activations tested** - How many examples were used
+- **Match rate** - Percentage of activations explained
+- **False positives** - Cases where explanation over-predicts
+- **Method details** - How the score was calculated
+
+Hover over (?) tooltips to understand each metric.
+
+## Understanding Scores
+
+### What's a "Good" Score?
+
+Score interpretation depends on the feature and method:
+
+- **90-100**: Excellent - explanation highly accurate
+- **70-89**: Good - explanation mostly correct, minor gaps
+- **50-69**: Fair - explanation captures some aspects
+- **Below 50**: Poor - needs revision or different approach
+
+### When Scores Disagree
+
+Different scoring methods may give different results:
+
+- **Embedding high, Fuzz low**: Semantic match but different words
+- **Fuzz high, Recall low**: Keywords match but explanation incomplete
+- **All scores low**: Feature may be polysemantic or explanation incorrect
+
+Use multiple methods to get a complete picture.
+
+## Working with Explanations
+
+### Voting on Explanations
+
+Help improve explanation quality:
+
+1. **Upvote** explanations that accurately describe the feature
+2. **Downvote** inaccurate or misleading explanations
+3. **Comment** to discuss edge cases or improvements
+
+Community votes help surface the best explanations.
+
+### Adding Your Own Explanations
+
+Found a better explanation?
+
+1. **Click "Add Explanation"** on any feature
+2. **Write your explanation** based on activation patterns
+3. **Provide evidence** - link to examples or edge cases
+4. **Submit** - your explanation joins the community pool
+
+### Editing Explanations
+
+Improve existing explanations:
+
+- Clarify ambiguous wording
+- Add edge cases or exceptions
+- Provide more specific details
+- Link to related features
+
+## Advanced Usage
+
+### Explanation Templates
+
+Use templates for consistent explanation format:
+
+```python
+template = """
+This feature activates on {pattern}.
+
+Typical contexts: {contexts}
+Edge cases: {edge_cases}
+Related to: {related_features}
+"""
+
+explanation = client.generate_explanation(
+    feature_id="gpt2-small@6-res_scefr-ajt:650",
+    method="eleuther",
+    template=template
+)
+```
+
+### Compare Methods
+
+Generate and compare explanations from different methods:
+
+```python
+methods = ["eleuther", "gpt4", "gpt3.5"]
+
+explanations = {}
+for method in methods:
+    explanations[method] = client.generate_explanation(
+        feature_id="gpt2-small@6-res_scefr-ajt:650",
+        method=method
+    )
+
+# Compare side-by-side
+for method, explanation in explanations.items():
+    print(f"{method}: {explanation.text}")
+```
+
+### Automated Pipelines
+
+Build automated interpretation pipelines:
+
+```python
+# 1. Generate explanations for all features in an SAE
+sae_id = "gpt2-small@6-res-jb"
+num_features = 10000
+
+for i in range(num_features):
+    explanation = client.generate_explanation(
+        feature_id=f"{sae_id}:{i}",
+        method="eleuther"
+    )
+
+    # 2. Score each explanation
+    score = client.score_explanation(
+        feature_id=f"{sae_id}:{i}",
+        explanation=explanation.text,
+        method="eleuther_recall"
+    )
+
+    # 3. Flag low-quality explanations for human review
+    if score.value < 70:
+        client.flag_for_review(f"{sae_id}:{i}", reason="low_score")
+
+    # 4. Store results
+    save_to_database(i, explanation, score)
+```
+
+## API Endpoints
+
+Access auto-interpretation via REST API:
+
+### Generate Explanation
+
+```bash
+POST https://neuronpedia.org/api/explanation-type/eleuther_acts_top20
+{
+  "feature_id": "gpt2-small@6-res_scefr-ajt:650",
+  "temperature": 0.7,
+  "num_activations": 20
+}
+```
+
+### Score Explanation
+
+```bash
+POST https://neuronpedia.org/api/score-type/eleuther_embedding
+{
+  "feature_id": "gpt2-small@6-res_scefr-ajt:650",
+  "explanation": "This feature detects measurements",
+  "num_test_activations": 50
+}
+```
+
+See full API documentation: [neuronpedia.org/api-doc](https://neuronpedia.org/api-doc)
+
+## Example: Gemma-2-9B Demo
+
+<!-- [Screenshot needed: Gemma-2-9B feature with on-demand autointerp and scoring] -->
+
+The Gemma-2-9B features showcase on-demand auto-interpretation:
+
+1. Navigate to any Gemma-2-9B feature
+2. Click explanation dropdown and select "EleutherAI Explainer"
+3. Click "Generate"
+4. View explanation with tooltips showing scoring details
+5. Click score to see full breakdown
+
+[Try it yourself with a Gemma-2-9B feature](https://neuronpedia.org/gemma-2-9b)
+
+## Best Practices
+
+### For Better Explanations
+
+- **Use EleutherAI** for technical/specific features
+- **Use GPT-4** for abstract/conceptual features
+- **Show more activations** (20-30) for complex features
+- **Try multiple methods** and compare results
+- **Validate with testing** - test the explanation on new text
+
+### For Better Scores
+
+- **Be specific** - "detects measurements in meters" beats "detects measurements"
+- **Include edge cases** - mention when feature doesn't activate
+- **Use feature's language** - match terms from activations
+- **Test multiple methods** - different scores reveal different issues
+
+### For Scaling
+
+- **Batch process** - generate many explanations at once
+- **Cache results** - store explanations and scores
+- **Parallelize** - use async/concurrent requests
+- **Monitor costs** - especially with GPT-4
+- **Use EleutherAI** when possible - faster and cheaper
+
+## Learn More
+
+### Research Papers
+
+- [Neuronpedia Scorer](https://github.com/hijohnnylin/neuronpedia-scorer) - Scoring methodology
+- [EleutherAI Explainer Paper](#) <!-- TODO: Add link when available -->
+- [Anthropic's Automated Interpretability](https://transformer-circuits.pub/2023/automating-interpretability/index.html)
+
+### Video Tutorials
+
+- [Auto-Interpretation Demo on YouTube](#) <!-- TODO: Add link -->
+- [Ship Week Day 4+5 Video](#) - EleutherAI integration announcement
+
+### Related Features
+
+- [Features](features) - Understanding feature dashboards
+- [Search](search) - Finding features by explanation
+- [Python Library](python-library) - Programmatic access
+- [API Documentation](api) - REST API endpoints
+
+### Community
+
+- Join [Open Source Mechanistic Interpretability Slack](https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-375zalm04-GFd5tdBU1yLKlu_T_JSqZQ)
+- Share your explanations and get feedback
+- Discuss interpretation methodology
+- Collaborate on automated pipelines
