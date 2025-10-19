@@ -1,18 +1,55 @@
 ---
-sidebar_position: 3
+title: Embedding Features
+description: Embed Neuronpedia features in websites, documentation, and posts
 ---
 
-# Embed Features (iframe)
+# Embedding Features
 
-## Basics
+## Overview
 
-Neuronpedia features can be embedded on your site or third-party sites, usually through iframes.
+Neuronpedia features can be embedded on your site, documentation, or third-party sites using iframes. This is perfect for:
 
-Every feature has an `Embed Code/Link` section with a Copy icon which allows you to quickly paste the iframe code or embed link for that feature.
+- **Research papers** - Show feature activations inline
+- **Blog posts** - Demonstrate concepts with live examples
+- **Documentation** - Provide interactive feature exploration
+- **LessWrong posts** - Native embedding support
+
+## Quick Start
+
+Every feature has an `Embed Code/Link` section with a Copy icon for quick embedding:
 
 ![Screenshot of a embed code at https://neuronpedia.org/gpt2-small/0-res-jb/14057](img/embedcode.png)
 
-Alternatively, you can construct your own by simply adding `?embed=true` to the end of any feature's URL.
+Or construct your own by adding `?embed=true` to any feature URL.
+
+## Sharing Workflow (New!)
+
+**Updated November 2024**: You can now easily share custom activation tests!
+
+### Share Custom Activation Results
+
+When testing a feature with custom text:
+
+1. **Enter your custom text** in the activation testing section
+2. **Click the "↑ Share" button**
+3. **Copy the generated link** - includes your custom text and results
+4. **Share or embed** - recipients see your exact test
+
+The shared link includes:
+- The feature being tested
+- Your custom activation text
+- Activation results
+- Full interactivity for further testing
+
+**No more screenshots needed!** Send a link and colleagues can see exactly what you're seeing.
+
+### Example Use Case
+
+> "Check out how this 'dogs' feature surprisingly activates on 'cats': [link with custom test]"
+
+Recipients click the link and see your test results, then can modify the text to explore further.
+
+See the [Search documentation](search) for more details on custom activation sharing.
 
 ## Simple Example
 
